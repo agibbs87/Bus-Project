@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCCT Route Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .route-option {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .fastest { border-color: green; }
+        .transfer { border-color: orange; }
+    </style>
+</head>
+<body>
+    <h1>OCCT Route Planner</h1>
+    <label for="starting">Choose a starting location:</label>
+    <form>
+    <select id="starting">
+    <optgroup label="Campus">
+            <!--Non CS + Overlap-->
+            <option value="union" selected="selected">Union</option>
+            <option value="pf">Physical Facilities</option>
+            <option value="bha">Bunn Hill Access</option>
+            <option value="mohawk">Mohawk</option>
+            <option value="newing">Newing</option>
+            <option value="ca">Couper Administration</option>
+            <option value="eg">East Gym</option>
+            <option value="aa">Academic A</option>
+            <!--CS Only-->
+            <option value="eng">Engineering Building</option>
+            <option value="dshs">Decker Student Health Services</option>
+            <option value="wc">Welcome Center</option>
+            <option value="wg">West Gym</option>
+            <option value="mcg">McGuire</option>
+            <option value="clearview">Clearview</option>
+            <option value="sus">Susquehanna</option>
+            <option value="hillside">Hillside</option>
+            <option value="mv">Mountainview</option>
+            <option value="hinman">Hinman</option>
+    </optgroup>
+    <optgroup label="Off Campus University Locations">
+        <option value="ps">Pharmacy School</option>
+        <option value="ns">Nursing School</option>
+        <option value="gb">Gannett Building</option>
+        <option value="itc">ITC</option>
+        <option value="udc">UDC</option>
+    </optgroup>
+    <optgroup label="Flora Avenue">
+        <!--WS In-->
+        <option value="cook">Cook</option>
+        <option value="fsc">Floral and St. Charles</option>
+        <!--WS Out-->
+        <option value="ny">New York</option>
+        <option value="ackley">Ackley</option>
+        <option value="harrison">Harrison</option>
+        <option value="roberts">Roberts</option>
+        <option value="willow">Willow</option>
+        <option value="burbank">Burbank</option>
+        <option value="cleveland">Cleveland</option>
+        <option value="mf">Main and Floral</option>
+    </optgroup>
+    <optgroup label="Riverside Dr + Leroy St">
+        <!--DCL Out-->
+        <option value="ethel">Ethel</option>
+        <option value="ackley">Ackley</option>
+        <option value="columbus">Columbus</option>
+        <option value="margaret">Margaret</option>
+        <option value="rb">Riverside and Beethoven</option>
+        <option value="lb">Leroy and Beethoven</option>
+        <option value="laurel">Laurel</option>
+        <option value="chestnut">Chestnut</option>
+        <option value="murray">Murray</option>
+        <option value="rf">Riverside and Front</option>
+    </optgroup>
+    <optgroup label="Main Street">
+        <!--MS Out-->
+        <option value="baker">Baker</option>
+        <option value="albert">Albert</option>
+        <option value="msc">Main and St. Charles</option>
+        <option value="baldwin">Baldwin</option>
+        <option value="lester">Lester</option>
+        <!--MS In-->
+        <option value="first">First</option>
+        <!--MS + WS Combo-->
+        <option value="matthews">Matthews</option>
+        <option value="crestmont">Crestmont</option>
+        <option value="crary">Crary</option>
+        <option value="helen">Helen</option>
+        <option value="schiller">Schiller</option>
+        <option value="clarke">Clarke</option>
+        <option value="cedar">Cedar</option>
+        <option value="arthur">Arthur</option>
+        <option value="mather">Mather</option>
+    </optgroup>
+    <optgroup label="Downtown Binghamton">
+        <option value="os">Oak and Seminary</option>
+        <option value="ol">Oak and Leroy</option>
+        <option value="fl">Front and Leroy</option>
+        <option value="ch">Court and Hawley</option>
+        <option value="sh">State and Hawley</option>
+    </optgroup>
+    <optgroup label="Downtown Southside">
+        <option value="larchmont">Larchmont</option>
+        <option value="hawthorne">Hawthorne</option>
+        <option value="brookfield">Brookfield</option>
+        <option value="vr">Vestal and Rush</option>
+        <option value="sw">South Washington</option>
+        <option value="tremont">Tremont</option>
+        <option value="livingston">Livingston</option>
+        <option value="pd">Park Diner</option>
+        <option value="telegraph">Telegraph</option>
+        <option value="alfred">Alfred</option>
+
+        <option value="ct">Conklin and Tompkins</option>
+        <option value="jackson">Jackson</option>
+        <option value="webster">Webster</option>
+        <option value="moose">Moose</option>
+        <option value="mirabito">Mirabito Stadium</option>
+        <option value="bc">BC Junction</option>
+    </optgroup>
+    <optgroup label="Vestal Shoppes">
+        <option value="rr1">Rivera Ridge #1</option>
+        <option value="rr2">Rivera Ridge #2</option>
+        <option value="hollybrook">Hollybrook</option>
+        <option value="burrisandrano">Burris and Rano</option>
+        <option value="bandn">Barnes and Noble</option>
+        <option value="walmart">Walmart</option>
+        <option value="oldnavy">Old Navy</option>
+        <option value="staples">Staples</option>
+    </optgroup>
+    <optgroup label="Oakdale Commons">
+        <option value="oc">Oakdale Commons</option>
+        <option value="wegmans">Wegmans</option>
+        <option value="aldi">Aldi</option>
+        <option value="fivebelow">Five Below</option>
+    </optgroup>
+    <optgroup label="UClub">
+        <option value="uclub">UClub</option>
+        <option value="meadows">Meadows</option>
+        <option value="hayes">Hayes</option>
+        <option value="omh">Oxford and Murray Hill</option>
+        <option value="wl">Washington and Lehigh</option>
+    </optgroup>
+    </select>
+    </form>
+
+
+    <label for="ending">Choose an ending destination:</label>
+    <form>
+    <select id="ending">
+    <optgroup label="Campus">
+            <!--Non CS + Overlap-->
+            <option value="union" selected="selected">Union</option>
+            <option value="pf">Physical Facilities</option>
+            <option value="bha">Bunn Hill Access</option>
+            <option value="mohawk">Mohawk</option>
+            <option value="newing">Newing</option>
+            <option value="ca">Couper Administration</option>
+            <option value="eg">East Gym</option>
+            <option value="aa">Academic A</option>
+            <!--CS Only-->
+            <option value="eng">Engineering Building</option>
+            <option value="dshs">Decker Student Health Services</option>
+            <option value="wc">Welcome Center</option>
+            <option value="wg">West Gym</option>
+            <option value="mcg">McGuire</option>
+            <option value="clearview">Clearview</option>
+            <option value="sus">Susquehanna</option>
+            <option value="hillside">Hillside</option>
+            <option value="mv">Mountainview</option>
+            <option value="hinman">Hinman</option>
+    </optgroup>
+    <optgroup label="Off Campus University Buildings">
+        <option value="ps">Pharmacy School</option>
+        <option value="ns">Nursing School</option>
+        <option value="gb">Gannett Building</option>
+        <option value="itc">ITC</option>
+        <option value="udc">UDC</option>
+    </optgroup>
+    <optgroup label="Floral Avenue">
+        <!--WS In-->
+        <option value="cook">Cook</option>
+        <option value="fsc">Floral and St. Charles</option>
+        <!--WS Out-->
+        <option value="ny">New York</option>
+        <option value="ackley">Ackley</option>
+        <option value="harrison">Harrison</option>
+        <option value="roberts">Roberts</option>
+        <option value="willow">Willow</option>
+        <option value="burbank">Burbank</option>
+        <option value="cleveland">Cleveland</option>
+        <option value="mf">Main and Floral</option>
+    </optgroup>
+    <optgroup label="Riverside Dr + Leroy St">
+        <!--DCL Out-->
+        <option value="ethel">Ethel</option>
+        <option value="ackley">Ackley</option>
+        <option value="columbus">Columbus</option>
+        <option value="margaret">Margaret</option>
+        <option value="rb">Riverside and Beethoven</option>
+        <option value="lb">Leroy and Beethoven</option>
+        <option value="laurel">Laurel</option>
+        <option value="chestnut">Chestnut</option>
+        <option value="murray">Murray</option>
+        <option value="rf">Riverside and Front</option>
+    </optgroup>
+    <optgroup label="Main Street">
+        <!--MS Out-->
+        <option value="baker">Baker</option>
+        <option value="albert">Albert</option>
+        <option value="msc">Main and St. Charles</option>
+        <option value="baldwin">Baldwin</option>
+        <option value="lester">Lester</option>
+        <!--MS In-->
+        <option value="first">First</option>
+        <!--MS + WS Combo-->
+        <option value="matthews">Matthews</option>
+        <option value="crestmont">Crestmont</option>
+        <option value="crary">Crary</option>
+        <option value="helen">Helen</option>
+        <option value="schiller">Schiller</option>
+        <option value="clarke">Clarke</option>
+        <option value="cedar">Cedar</option>
+        <option value="arthur">Arthur</option>
+        <option value="mather">Mather</option>
+    </optgroup>
+    <optgroup label="Downtown Binghamton">
+        <option value="os">Oak and Seminary</option>
+        <option value="ol">Oak and Leroy</option>
+        <option value="fl">Front and Leroy</option>
+        <option value="ch">Court and Hawley</option>
+        <option value="sh">State and Hawley</option>
+    </optgroup>
+    <optgroup label="Downtown Southside">
+        <option value="larchmont">Larchmont</option>
+        <option value="hawthorne">Hawthorne</option>
+        <option value="brookfield">Brookfield</option>
+        <option value="vr">Vestal and Rush</option>
+        <option value="sw">South Washington</option>
+        <option value="tremont">Tremont</option>
+        <option value="livingston">Livingston</option>
+        <option value="pd">Park Diner</option>
+        <option value="telegraph">Telegraph</option>
+        <option value="alfred">Alfred</option>
+
+        <option value="ct">Conklin and Tompkins</option>
+        <option value="jackson">Jackson</option>
+        <option value="webster">Webster</option>
+        <option value="moose">Moose</option>
+        <option value="mirabito">Mirabito Stadium</option>
+        <option value="bc">BC Junction</option>
+    </optgroup>
+    <optgroup label="Vestal Shoppes">
+        <option value="rr1">Rivera Ridge #1</option>
+        <option value="rr2">Rivera Ridge #2</option>
+        <option value="hollybrook">Hollybrook</option>
+        <option value="burrisandrano">Burris and Rano</option>
+        <option value="bandn">Barnes and Noble</option>
+        <option value="walmart">Walmart</option>
+        <option value="oldnavy">Old Navy</option>
+        <option value="staples">Staples</option>
+    </optgroup>
+    <optgroup label="Oakdale Commons">
+        <option value="oc">Oakdale Commons</option>
+        <option value="wegmans">Wegmans</option>
+        <option value="aldi">Aldi</option>
+        <option value="fivebelow">Five Below</option>
+    </optgroup>
+    <optgroup label="UClub">
+        <option value="uclub">UClub</option>
+        <option value="meadows">Meadows</option>
+        <option value="hayes">Hayes</option>
+        <option value="omh">Oxford and Murray Hill</option>
+        <option value="wl">Washington and Lehigh</option>
+    </optgroup>
+    </select>
+    </form>
+    <button onclick="findRoutes()">Find Routes</button>
+    
+    <div id="results"></div>
+    <script src="script.js"></script>
+</body>
+</html>

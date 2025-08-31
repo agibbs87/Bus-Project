@@ -1,0 +1,343 @@
+
+
+/* WORK ON WEEKEND ROUTES + DE + LATE NIGHT */
+/* SPECIFIC TIMES ONLY RUN ON CERTAIN DAYS, CONSIDER WORKAROUND */
+/* MAKE EACH DAY OF THE WEEK? INEFFICIENT? HOW TO DIFFERENTIATE? */
+/* POSSIBLY SPLIT INTO MULTIPLE JSON FILES IF IT GETS TOO BIG */
+
+{
+    "routes": [
+        {
+            "name": "WS Out (Weekdays)",
+            "stops": [
+                "Union", "Physical Facilities", "Bunn Hill Access", "New York", "Ackley", 
+                "Harrison", "Roberts", "Willow", "Burbank", "Cleveland", "Main and Floral", 
+                "Matthews", "Crestmont", "Helen", "Schiller", "Clarke", "Cedar", "Arthur", 
+                "Murray", "Front", "Court and Hawley", "UDC"
+            ],
+            "times": [
+                "07:15", "07:30", "07:50", "08:05", "08:55", "09:10", "09:30", "09:45",
+                "10:35", "10:50", "11:10", "11:25", "12:15", "13:05",
+                "14:30", "14:45", "15:45", "16:10", "17:10", "17:50",
+                "18:35", "18:45", "19:30", "19:45", "20:30", "21:15", "21:45", "22:45", "23:00", "23:45"
+            ]
+        },
+        {
+            "name": "WS Out (Weekends)",
+            "stops": [
+                "Union", "Physical Facilities", "Bunn Hill Access", "New York", "Ackley", 
+                "Harrison", "Roberts", "Willow", "Burbank", "Cleveland", "Main and Floral", 
+                "Matthews", "Crestmont", "Helen", "Schiller", "Clarke", "Cedar", "Arthur", 
+                "Murray", "Front", "Court and Hawley", "UDC"
+            ],
+            "times": [
+                "00:00", "09:15", "10:00", "10:15", "11:35", "12:15", "13:00", "14:15",
+                "15:15", "16:00", "16:55", "18:45", "20:05", "21:00", "21:45", "22:00", 
+                "22:30", "22:45", "23:00"
+            ]
+        },
+        {
+            "name": "DCL In",
+            "stops": [
+                "UDC", "Leroy and Front", "Murray", "Chestnut", "Laurel", 
+                "Leroy and Beethover", "Riverside and Beethoven", "Margaret", "Columbus", 
+                "Elfred", "Ethel", "Academic A", "Union"
+            ],
+            "times":[
+                "00:10","07:40", "07:55", "08:15", "08:30", "09:20", "09:35", "09:55", "10:05", "11:00", "11:15", "11:35", "11:50", "12:25",
+                "12:40", "13:30", "14:55", "15:10", "16:10", "16:35", "17:35", "18:15",
+                "19:00", "19:10", "19:55", "20:10", "20:55", "21:40", "22:10", "23:10", "23:25"
+            ]
+        },
+        {
+            "name": "DCL Out",
+            "stops": [
+                "Union", "Physical Facilites","Bunn Hill Access","Ethel","Elfred","Columbus","Margaret",
+                "Riverside and Beethoven","Leroy and Beethoven","Laurel","Chestnut","Murray",
+                "Riverside and Front","UDC"
+
+            ],
+            "times":[
+                "07:00", "07:15", "08:05", "08:20", "08:40", "08:55", "09:45", "10:00", "10:20", "10:35", "11:25", "11:40", "12:15",
+                "12:50", "13:10", "13:55", "14:45", "15:20", "15:35", "16:35", "17:00", "17:25", "17:45", "18:15", "18:40", "19:35",
+                "20:15", "20:45", "21:15", "22:20", "23:00", "23:15", "23:45"
+            ]
+        },
+        {
+            "name": "WS In",
+            "stops": [
+"UDC",
+"Court and Hawley",
+"Front",
+"Murray",
+"Mather",
+"Cedar",
+"Clarke",
+"Schiller",
+"Helen",
+"Crestmont",
+"Crary",
+"Main and Floral",
+"Cleveland",
+"Burbank",
+"Willow",
+"Roberts",
+"Harrison",
+"Floral and St Charles",
+"Cook",
+"Academic A",
+"Union"
+            ],
+            "times":[
+                "00:05","07:20", "07:35", "08:25", "08:40", "09:00", "09:15", "10:05", "10:20", "10:40", "11:00",
+                "11:45", "12:00", "12:40", "13:10", "13:30", "14:15", "15:05", "15:40", "15:55", "16:55", "17:20",
+                "17:45", "18:05", "18:35", "19:00", "19:55", "20:35", "21:05", "21:35", "22:40",
+                "23:20", "23:35"
+            ]
+        },
+        {
+            "name": "UDC Out",
+            "stops": [
+                "Union","UDC"
+            ],
+            "times":[
+                "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
+                "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
+                "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"
+            ]
+        },
+        {
+            "name": "UDC In",
+            "stops": [
+                "UDC","Union"
+            ],
+            "times":[
+                "07:45", "08:15", "08:45", "09:15", "09:45", "10:15", "10:45", "11:15", "11:45", "12:15",
+                "12:45", "13:15", "13:45", "14:15", "14:45", "15:15", "15:45", "16:15", "16:45", "17:15",
+                "17:45", "18:15", "18:45", "19:15", "19:45", "20:15", "20:45", "21:15", "21:45"
+            ]
+        },
+        {
+            "name": "MS Out",
+            "stops": [
+"Union",
+"Physical Facilities",
+"Bunn Hill Access",
+"Baker",
+"Albert", 
+"Main and St Charles",
+"Baldwin",
+"Pharmacy School",
+"Nursing School",
+"Gannett Building",
+"Lester",
+"Main and Floral",
+"Matthews",
+"Crestmont",
+"Helen",
+"Schiller",
+"Clarke",
+"Cedar",
+"Arthur",
+"Murray",
+"Oak and Seminary",
+"Oak and Leroy",
+"UDC"
+            ],
+            "times":[
+                "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
+                "17:30", "18:30", "19:30", "20:30", "21:30"
+            ]
+        },
+        {
+            "name": "DS In",
+            "stops": [
+"UDC",
+"BC Junction",
+"Mirabito Stadium",
+"Moose",
+"Webster",
+"Jackson",
+"Conklin and Tompkins",
+"Alfred",
+"Telegraph",
+"Park Diner",
+"Livingston",
+"Tremont",
+"South Washington",
+"Vestal and Rush",
+"Brookfield",
+"Hawthorne",
+"Larchmont",
+"Union"
+
+            ],
+            "times":[
+                "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
+                "18:00", "19:00", "20:00", "21:00", "21:55"
+            ]
+        },
+        {
+            "name": "DS Out",
+            "stops": [
+"Union",
+"Larchmont",
+"Hawthorne",
+"Brookfield",
+"Vestal and Rush",
+"South Washington",
+"Tremont",
+"Livingston",
+"Park Diner",
+"Telegraph",
+"Alfred",
+"Conklin and Tompkins",
+"Jackson",
+"Webster",
+"Moose",
+"Mirabito Stadium",
+"BC Junction",
+"UDC"
+            ],
+            "times":[
+                "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
+                "17:00", "18:00", "19:00", "20:00", "22:15"
+            ]
+        },
+        {
+            "name": "MS In",
+            "stops": [
+"UDC",
+"Front and Leroy",
+"Murray",
+"Mather",
+"Cedar",
+"Clarke",
+"Schiller",
+"Helen",
+"Crestmont",
+"Crary",
+"Main and Floral",
+"Lester",
+"Gannett Building",
+"Nursing School",
+"Pharmacy School",
+"Baldwin",
+"Main and St Charles",
+"First",
+"Academic A",
+"Union"
+            ],
+            "times":[
+                "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
+                "17:30", "18:30", "19:30", "20:30", "22:35"
+            ]
+    },
+    {
+            "name": "ITC/UClub",
+            "stops": [
+"Mohawk",
+"Newing",
+"Couper Administration",
+"East Gym",
+"ITC",
+"UClub",
+"Meadows",
+"Hayes",
+"Oxford and Murray Hill",
+"Washington and Lehigh",
+"Union"
+            ],
+            "times":[
+                "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
+                "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
+                "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"
+            ]
+        },
+        {
+        "name": "UClub",
+            "stops": [
+                "Mohawk",
+                "Newing",
+                "Couper Administration",
+                "East Gym",
+                "UClub",
+                "Meadows",
+                "Hayes",
+                "Oxford and Murray Hill",
+                "Washington and Lehigh",
+                "Union"
+            ],
+        "times":[
+        "22:00", "22:30", "23:00", "23:30"
+        ]
+    },
+    {
+        "name": "Vestal Shopping",
+            "stops": [
+                "Union",
+"Physical Facilities",
+"Bunn Hill Access",
+"Rivera Ridge #1",
+"Rivera Ridge #2",
+"Hollybrook",
+"Burris and Rano",
+"Target",
+"Barnes & Noble",
+"Walmart",
+"Old Navy",
+"Staples",
+"Bunn Hill Access",
+"Physical Facilities",
+"Academic A"
+            ],
+        "times":[
+            "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"
+        ]
+    },
+    {
+        "name": "CS Weekdays",
+            "stops": [
+"Engineering Building",
+"Decker Student Health Services",
+"Dickinson", 
+"Newing",
+"Couper Administration",
+"East Gym",
+"Welcome Center",
+"West Gym",
+"McGuire",
+"Clearview",
+"Susquehanna",
+"Hillside",
+"Mountainview",
+"Hinman"
+            ],
+        "times":[
+            "See Spot App for Bus Tracking"
+        ]
+    },
+    {
+        "name": "CS Weekdays",
+            "stops": [
+"Mohawk",
+"Decker Student Health Services",
+"Dickinson", 
+"Newing",
+"Couper Administration",
+"East Gym",
+"West Gym",
+"McGuire",
+"Clearview",
+"Susquehanna",
+"Hillside",
+"Mountainview",
+"Hinman"
+            ],
+        "times":[
+            "08:45", "10:00", "11:00", "12:35", "13:45", "15:00", "16:15", "17:30", "18:35", "19:30", "20:45"
+        ]
+    },
+
+]
+}

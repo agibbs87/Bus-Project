@@ -19,12 +19,12 @@ onEndingChange();
 const routesData = {
             "routes": [
                 {
-                    "name": "WS Out (Weekdays)",
+                    "name": "WS Out",
                     "stops": [
                         "Union", "Physical Facilities", "Bunn Hill Access", "New York", "Ackley", 
                         "Harrison", "Roberts", "Willow", "Burbank", "Cleveland", "Main and Floral", 
                         "Matthews", "Crestmont", "Helen", "Schiller", "Clarke", "Cedar", "Arthur", 
-                        "Murray", "Front", "Court and Hawley", "UDC"
+                        "Main and Murray", "Front", "Court and Hawley", "UDC"
                     ],
                     "times": [
                         "07:15", "07:30", "07:50", "08:05", "08:55", "09:10", "09:30", "09:45",
@@ -37,7 +37,7 @@ const routesData = {
                 {
                     "name": "DCL In",
                     "stops": [
-                        "UDC", "Leroy and Front", "Murray", "Chestnut", "Laurel", 
+                        "UDC", "Leroy and Front", "Leroy and Murray", "Chestnut", "Laurel", 
                         "Leroy and Beethoven", "Riverside and Beethoven", "Margaret", "Columbus", 
                         "Elfred", "Ethel", "Academic A", "Union"
                     ],
@@ -51,7 +51,7 @@ const routesData = {
                     "name": "DCL Out",
                     "stops": [
                         "Union", "Physical Facilities","Bunn Hill Access","Ethel","Elfred","Columbus","Margaret",
-                        "Riverside and Beethoven","Leroy and Beethoven","Laurel","Chestnut","Murray",
+                        "Riverside and Beethoven","Leroy and Beethoven","Laurel","Chestnut","Leroy and Murray",
                         "Riverside and Front","UDC"
                     ],
                     "times":[
@@ -63,7 +63,7 @@ const routesData = {
                 {
                     "name": "WS In",
                     "stops": [
-                        "UDC", "Court and Hawley", "Front", "Murray", "Mather", "Cedar", "Clarke", "Schiller", "Helen",
+                        "UDC", "Court and Hawley", "Front", "Main and Murray", "Mather", "Cedar", "Clarke", "Schiller", "Helen",
                         "Crestmont", "Crary", "Main and Floral", "Cleveland", "Burbank", "Willow", "Roberts", "Harrison",
                         "Floral and St. Charles", "Cook", "Academic A", "Union"
                     ],
@@ -98,7 +98,7 @@ const routesData = {
                         "Union", "Physical Facilities", "Bunn Hill Access", "Baker", "Albert", 
                         "Main and St. Charles", "Baldwin", "Pharmacy School", "Nursing School", "Gannett Building",
                         "Lester", "Main and Floral", "Matthews", "Crestmont", "Helen", "Schiller", "Clarke",
-                        "Cedar", "Arthur", "Murray", "Oak and Seminary", "Oak and Leroy", "UDC"
+                        "Cedar", "Arthur", "Main and Murray", "Oak and Seminary", "Oak and Leroy", "UDC"
                     ],
                     "times":[
                         "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
@@ -132,7 +132,7 @@ const routesData = {
                 {
                     "name": "MS In",
                     "stops": [
-                        "UDC", "Front and Leroy", "Murray", "Mather", "Cedar", "Clarke", "Schiller", "Helen",
+                        "UDC", "Front and Leroy", "Main and Murray", "Mather", "Cedar", "Clarke", "Schiller", "Helen",
                         "Crestmont", "Crary", "Main and Floral", "Lester", "Gannett Building", "Nursing School",
                         "Pharmacy School", "Baldwin", "Main and St. Charles", "First", "Academic A", "Union"
                     ],
@@ -200,7 +200,7 @@ const routesData = {
                 "ps": "Pharmacy School", "ns": "Nursing School", "gb": "Gannett Building",
                 "itc": "ITC", "udc": "UDC",
                 
-                // Flora Avenue
+                // Floral Avenue
                 "cook": "Cook", "fsc": "Floral and St. Charles", "ny": "New York",
                 "ackley": "Ackley", "harrison": "Harrison", "roberts": "Roberts",
                 "willow": "Willow", "burbank": "Burbank", "cleveland": "Cleveland",
@@ -210,14 +210,14 @@ const routesData = {
                 "ethel": "Ethel", "elfred": "Elfred", "columbus": "Columbus",
                 "margaret": "Margaret", "rb": "Riverside and Beethoven",
                 "lb": "Leroy and Beethoven", "laurel": "Laurel", "chestnut": "Chestnut",
-                "murray": "Murray", "rf": "Riverside and Front",
+                "lm": "Leroy and Murray", "rf": "Riverside and Front",
                 
                 // Main Street
                 "baker": "Baker", "albert": "Albert", "msc": "Main and St. Charles",
                 "baldwin": "Baldwin", "lester": "Lester", "first": "First",
                 "matthews": "Matthews", "crestmont": "Crestmont", "crary": "Crary",
                 "helen": "Helen", "schiller": "Schiller", "clarke": "Clarke",
-                "cedar": "Cedar", "arthur": "Arthur", "mather": "Mather",
+                "cedar": "Cedar", "arthur": "Arthur", "mm": "Main and Murray", "mather": "Mather",
                 
                 // Downtown Binghamton
                 "os": "Oak and Seminary", "ol": "Oak and Leroy", "fl": "Front and Leroy",
@@ -282,7 +282,240 @@ function minutesToTime(minutes, isNextDay = false) {
     return timeStr;
 }
 
-// Find direct routes between two stops with direction validation
+// Create a mapping of travel time offsets from departure for each route
+function getTravelTimeOffsets() {
+    return {
+        "WS Out": {
+            "Union": 0,
+            "Physical Facilities": 2,
+            "Bunn Hill Access": 3,
+            "New York": 5,
+            "Ackley": 6,
+            "Harrison": 6,
+            "Roberts": 7,
+            "Willow": 7,
+            "Burbank": 8,
+            "Cleveland": 8,
+            "Main and Floral": 9,
+            "Matthews": 10,
+            "Crestmont": 11,
+            "Helen": 11,
+            "Schiller": 12,
+            "Clarke": 12,
+            "Cedar": 13,
+            "Arthur": 14,
+            "Main and Murray": 15,
+            "Front": 17,
+            "Court and Hawley": 20,
+            "UDC": 25
+        },
+        "WS In": {
+            "UDC": 0,
+            "Court and Hawley": 1,
+            "Front": 2,
+            "Main and Murray": 3,
+            "Mather": 3,
+            "Cedar": 4,
+            "Clarke": 5,
+            "Schiller": 5,
+            "Helen": 6,
+            "Crestmont": 7,
+            "Crary": 8,
+            "Main and Floral": 9,
+            "Cleveland": 10,
+            "Burbank": 11,
+            "Willow": 12,
+            "Roberts": 14,
+            "Harrison": 17,
+            "Floral and St. Charles": 18,
+            "Cook": 19,
+            "Academic A": 23,
+            "Union": 25
+        },
+        "DCL Out": {
+            "Union": 0,
+            "Physical Facilities": 1,
+            "Bunn Hill Access": 2,
+            "Ethel": 4,
+            "Elfred": 5,
+            "Columbus": 6,
+            "Margaret": 7,
+            "Riverside and Beethoven": 8,
+            "Leroy and Beethoven": 8,
+            "Laurel": 9,
+            "Chestnut": 10,
+            "Leroy and Murray": 11,
+            "Riverside and Front": 14,
+            "UDC": 18
+        },
+        "DCL In": {
+            "UDC": 0,
+            "Leroy and Front": 2,
+            "Leroy and Murray": 3,
+            "Chestnut": 4,
+            "Laurel": 5,
+            "Leroy and Beethoven": 6,
+            "Riverside and Beethoven": 7,
+            "Margaret": 8,
+            "Columbus": 9,
+            "Elfred": 13,
+            "Ethel": 16,
+            "Academic A": 18,
+            "Union": 20
+        },
+        "UDC Out": {
+            "Union": 0,
+            "UDC": 15
+        },
+        "UDC In": {
+            "UDC": 0,
+            "Union": 15
+        },
+        "MS Out": {
+            "Union": 0,
+            "Physical Facilities": 2,
+            "Bunn Hill Access": 2,
+            "Baker": 5,
+            "Albert": 6,
+            "Main and St. Charles": 7,
+            "Baldwin": 8,
+            "Pharmacy School": 9,
+            "Nursing School": 10,
+            "Gannett Building": 11,
+            "Lester": 11,
+            "Main and Floral": 12,
+            "Matthews": 13,
+            "Crestmont": 14,
+            "Helen": 15,
+            "Schiller": 16,
+            "Clarke": 16,
+            "Cedar": 17,
+            "Arthur": 17,
+            "Main and Murray": 18,
+            "Oak and Seminary": 20,
+            "Oak and Leroy": 24,
+            "UDC": 30
+        },
+        "MS In": {
+            "UDC": 0,
+            "Front and Leroy": 2,
+            "Main and Murray": 3,
+            "Mather": 4,
+            "Cedar": 5,
+            "Clarke": 6,
+            "Schiller": 7,
+            "Helen": 7,
+            "Crestmont": 8,
+            "Crary": 8,
+            "Main and Floral": 9,
+            "Lester": 10,
+            "Gannett Building": 10,
+            "Nursing School": 11,
+            "Pharmacy School": 12,
+            "Baldwin": 14,
+            "Main and St. Charles": 18,
+            "First": 21,
+            "Academic A": 28,
+            "Union": 30
+        },
+        "DS Out": {
+            "Union": 0,
+            "Larchmont": 3,
+            "Hawthorne": 4,
+            "Brookfield": 5,
+            "Vestal and Rush": 6,
+            "South Washington": 8,
+            "Tremont": 9,
+            "Livingston": 9,
+            "Park Diner": 10,
+            "Telegraph": 10,
+            "Alfred": 10,
+            "Conklin and Tompkins": 11,
+            "Jackson": 12,
+            "Webster": 12,
+            "Moose": 13,
+            "Mirabito Stadium": 14,
+            "BC Junction": 15,
+            "UDC": 25
+        },
+        "DS In": {
+            "UDC": 0,
+            "BC Junction": 3,
+            "Mirabito Stadium": 4,
+            "Moose": 5,
+            "Webster": 6,
+            "Jackson": 8,
+            "Conklin and Tompkins": 10,
+            "Alfred": 11,
+            "Telegraph": 12,
+            "Park Diner": 13,
+            "Livingston": 14,
+            "Tremont": 14,
+            "South Washington": 15,
+            "Vestal and Rush": 17,
+            "Brookfield": 18,
+            "Hawthorne": 19,
+            "Larchmont": 20,
+            "Union": 25
+        },
+        "ITC/UClub": {
+            "Mohawk": 0,
+            "Newing": 2,
+            "Couper Administration": 3,
+            "East Gym": 4,
+            "ITC": 5,
+            "UClub": 10,
+            "Meadows": 12,
+            "Hayes": 12,
+            "Oxford and Murray Hill": 14,
+            "Washington and Lehigh": 17,
+            "Union": 22
+        },
+        "UClub": {
+            "Mohawk": 0,
+            "Newing": 2,
+            "Couper Administration": 3,
+            "East Gym": 3,
+            "UClub": 5,
+            "Meadows": 6,
+            "Hayes": 7,
+            "Oxford and Murray Hill": 8,
+            "Washington and Lehigh": 9,
+            "Union": 12
+        },
+        "Vestal Shopping": {
+            "Union": 0,
+            "Physical Facilities": 2,
+            "Bunn Hill Access": 3,
+            "Rivera Ridge #1": 5,
+            "Rivera Ridge #2": 6,
+            "Hollybrook": 7,
+            "Burris and Rano": 8,
+            "Target": 9,
+            "Barnes & Noble": 12,
+            "Walmart": 15,
+            "Old Navy": 20,
+            "Staples": 28,
+            "Bunn Hill Access": 30,
+            "Physical Facilities": 31,
+            "Academic A": 45
+        },
+        "Oakdale Commons": {
+            "Union": 0,
+            "Physical Facilities": 2,
+            "Bunn Hill Access": 3,
+            "Oakdale Commons": 9,
+            "Wegmans": 15,
+            "Aldi": 18,
+            "Five Below": 20,
+            "Bunn Hill Access": 30,
+            "Physical Facilities": 30,
+            "Academic A": 35
+        }
+    };
+}
+
+// Update the findDirectRoutes function to use the calculated arrival time
 function findDirectRoutes(startStop, endStop) {
     const directRoutes = [];
 
@@ -300,13 +533,10 @@ function findDirectRoutes(startStop, endStop) {
             const currentTime = getCurrentTimeMinutes();
             const nextDepartureInfo = getNextDeparture(route, currentTime);
             
-            // Check if nextDepartureInfo is valid before using it
             if (nextDepartureInfo !== null && travelTime !== null) {
                 const arrivalTime = nextDepartureInfo.time + travelTime;
-                const arrivalIsNextDay = nextDepartureInfo.isNextDay || 
-                                       (arrivalTime >= 1440); // Check if arrival is next day
+                const arrivalIsNextDay = nextDepartureInfo.isNextDay || (arrivalTime >= 1440);
                 
-                // Normalize times to be within 0-1439 minutes (24-hour range)
                 const normalizedDepartureTime = nextDepartureInfo.time % 1440;
                 const normalizedArrivalTime = arrivalTime % 1440;
                 
@@ -473,20 +703,32 @@ function timeToMinutes(timeStr) {
     return hours * 60 + minutes;
 }
 
-// Calculate travel time between two stops on the same route
+// Calculate travel time using time offsets
 function calculateTravelTime(route, startStop, endStop) {
-    const startIndex = route.stops.findIndex(stop => 
-        normalizeStopName(stop) === normalizeStopName(startStop)
-    );
-    const endIndex = route.stops.findIndex(stop => 
-        normalizeStopName(stop) === normalizeStopName(endStop)
-    );
+    const timeOffsets = getTravelTimeOffsets();
+    const routeOffsets = timeOffsets[route.name];
     
-    if (startIndex === -1 || endIndex === -1) return null;
+    if (!routeOffsets) {
+        // Fallback to estimated time if no offset data exists
+        const startIndex = route.stops.findIndex(stop => 
+            normalizeStopName(stop) === normalizeStopName(startStop)
+        );
+        const endIndex = route.stops.findIndex(stop => 
+            normalizeStopName(stop) === normalizeStopName(endStop)
+        );
+        
+        if (startIndex === -1 || endIndex === -1) return null;
+        
+        const stopDifference = Math.abs(endIndex - startIndex);
+        return stopDifference * 2;
+    }
     
-    // Assume 2 minutes between consecutive stops
-    const stopDifference = Math.abs(endIndex - startIndex);
-    return stopDifference * 2;
+    const startOffset = routeOffsets[startStop];
+    const endOffset = routeOffsets[endStop];
+    
+    if (startOffset === undefined || endOffset === undefined) return null;
+    
+    return Math.abs(endOffset - startOffset);
 }
 
 // Helper function to determine if a route is valid for given start and end stops
@@ -528,10 +770,9 @@ function isValidRouteDirection(route, startStop, endStop) {
                     </div>
                 `;
                 return;
-            }
-            
+            } 
             let html = `<h2>Route Options from ${truncateStopName(startStop)} to ${truncateStopName(endStop)}</h2>`;
-            
+            html += `<h5>Note: Times may vary based on current conditions. Always check the Spot app for real-time updates.</h5>`;
             routes.forEach((route, index) => {
                 const isFirstOption = index === 0;
                 const isDirect = route.transfers === 0;
@@ -541,11 +782,11 @@ function isValidRouteDirection(route, startStop, endStop) {
                 html += `<div class="${routeClass}">`;
                 
                 if (isFirstOption) {
-                    html += '<h3>⚡ Fastest Option</h3>';
+                    html += '<h3>Fastest Option</h3>';
                 } else if (isDirect) {
-                    html += '<h3>🚌 Direct Route</h3>';
+                    html += '<h3>Direct Route</h3>';
                 } else {
-                    html += '<h3>🔄 Transfer Required</h3>';
+                    html += '<h3>Transfer Required</h3>';
                 }
                 
                 if (isDirect) {

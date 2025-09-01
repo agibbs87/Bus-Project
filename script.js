@@ -584,47 +584,66 @@ function isValidRouteDirection(route, startStop, endStop) {
         }
 
         // Main route finding function
-        function findRoutes() {
-            const startSelect = document.getElementById('starting');
-            const endSelect = document.getElementById('ending');
-            const resultsDiv = document.getElementById('results');
-            
-            const startValue = startSelect.value;
-            const endValue = endSelect.value;
-            
-            if (!startValue || !endValue) {
-                resultsDiv.innerHTML = '<p>Please select both starting and ending locations.</p>';
-                return;
-            }
-            
-            if (startValue === endValue) {
-                resultsDiv.innerHTML = '<p>Starting and ending locations cannot be the same.</p>';
-                return;
-            }
-            
-            const stopMapping = createStopMapping();
-            const startStop = stopMapping[startValue];
-            const endStop = stopMapping[endValue];
-            
-            if (!startStop || !endStop) {
-                resultsDiv.innerHTML = '<p>Error: Invalid stop selection.</p>';
-                return;
-            }
-            
-            resultsDiv.innerHTML = '<p>Searching for routes...</p>';
-            
-            // Find direct routes
-            const directRoutes = findDirectRoutes(startStop, endStop);
-            
-            // Find transfer routes
-            const transferRoutes = findTransferRoutes(startStop, endStop);
-            
-            // Combine and sort all routes
-            const allRoutes = [...directRoutes, ...transferRoutes.slice(0, 5)] // Limit transfer routes
-                .sort((a, b) => a.totalJourneyTime - b.totalJourneyTime);
-            
-            displayResults(allRoutes, startStop, endStop);
-        }
+
+function findRoutes() {
+    const startSelect = document.getElementById('starting');
+    const endSelect = document.getElementById('ending');
+    const resultsDiv = document.getElementById('results');
+    
+    const startValue = startSelect.value;
+    const endValue = endSelect.value;
+    
+    if (!startValue || !endValue) {
+        resultsDiv.innerHTML = '<p>Please select both starting and ending locations.</p>';
+        return;
+    }
+    
+    if (startValue === endValue) {
+        resultsDiv.innerHTML = '<p>Starting and ending locations cannot be the same.</p>';
+        return;
+    }
+    
+    const stopMapping = createStopMapping();
+    const startStop = stopMapping[startValue];
+    const endStop = stopMapping[endValue];
+
+    // Campus Shuttle check
+    const csRoutes = [
+        "eng","dshs","wc","wg","mcg","clearview",
+        "sus","hillside","mv","hinman","mohawk",
+        "newing","ca","eg"
+    ];
+    if (csRoutes.includes(startValue) && csRoutes.includes(endValue)) {
+        resultsDiv.innerHTML = `
+            <div class="route-option cs-shuttle">
+                <h3>Campus Shuttle Route</h3>
+                <p>This trip is served by the Campus Shuttle.</p>
+                <p>Please check the Spot app for the nearest shuttle and real-time tracking.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    if (!startStop || !endStop) {
+        resultsDiv.innerHTML = '<p>Error: Invalid stop selection.</p>';
+        return;
+    }
+    
+    resultsDiv.innerHTML = '<p>Searching for routes...</p>';
+    
+    // Find direct routes
+    const directRoutes = findDirectRoutes(startStop, endStop);
+    
+    // Find transfer routes
+    const transferRoutes = findTransferRoutes(startStop, endStop);
+    
+    // Combine and sort all routes
+    const allRoutes = [...directRoutes, ...transferRoutes.slice(0, 5)]
+        .sort((a, b) => a.totalJourneyTime - b.totalJourneyTime);
+    
+    displayResults(allRoutes, startStop, endStop);
+}
+
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {

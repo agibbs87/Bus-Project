@@ -813,14 +813,14 @@ function displayResults(routes, startStop, endStop) {
   if (routes.length === 0) {
     resultsDiv.innerHTML = `
       <div class="route-option no-results">
-        <h3>No Routes Found</h3>
+        <h2>No Routes Found</h2>
           <p>No direct or transfer routes found between ${truncateStopName(startStop)} and ${truncateStopName(endStop)}.</p>
           <p>Please check the Spot app for real-time updates and alternative options.</p>
         <h3>Note: If you are on campus, consider walking to:</h3>
           <ul>
-            <li>Rafuse for OC</li>
-            <li>Mohawk for ITC/UClub or UClub</li>
-            <li>Union for WS, DCL, MS, DS, VS routes</li>
+            <p><strong>Union</strong> for WS, DCL, MS, DS, VS routes</p>
+            <p><strong>Mohawk</strong> for ITC/UClub or UClub</p>
+            <p><strong>Rafuse</strong> for OC</p>
           </ul>
         <p>More information may be found at occtransport.org</p>
       </div>

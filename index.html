@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>OCCT Route Planner</h1>
+    <h1><img src="https://occtransport.s3.amazonaws.com/Logos/OCC+Transport+Logo.png" alt="OCCT"> Route Planner</h1>
     <label for="starting">Choose a starting location:</label>
     <select id="starting">
     <option value="" selected>Select starting location...</option>
@@ -43,7 +43,7 @@
         <option value="itc">ITC</option>
         <option value="udc">UDC</option>
     </optgroup>
-    <optgroup label="Flora Avenue">
+    <optgroup label="Floral Avenue">
         <!--WS In-->
         <option value="cook">Cook</option>
         <option value="fsc">Floral and St. Charles</option>
@@ -278,15 +278,5 @@
     
     <div id="results"></div>
     <script src="script.js"></script>
-    <script type="text/javascript">
-const now = new Date();
-const timeString = now.toLocaleTimeString('en-US', { 
-    hour12: false, 
-    hour: '2-digit', 
-    minute: '2-digit' 
-});
-console.log("User time is " + timeString);
-
-</script>
 </body>
 </html>

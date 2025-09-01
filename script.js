@@ -1,21 +1,3 @@
-var startingSelect = document.getElementById("starting");
-function onStartingChange() {
-  var value = startingSelect.value;
-  var text = startingSelect.options[startingSelect.selectedIndex].text;
-  console.log("Starting:", value, text);
-}
-startingSelect.onchange = onStartingChange;
-onStartingChange();
-
-var endingSelect = document.getElementById("ending");
-function onEndingChange() {
-  var value = endingSelect.value;
-  var text = endingSelect.options[endingSelect.selectedIndex].text;
-  console.log("Ending:", value, text);
-}
-endingSelect.onchange = onEndingChange;
-onEndingChange();
-
 const routesData = {
   "routes": [
     {
@@ -145,7 +127,7 @@ const routesData = {
         "name": "ITC/UClub",
         "stops": [
           "Mohawk", "Newing", "Couper Administration", "East Gym", "ITC", "UClub", "Meadows",
-          "Hayes", "Oxford and Murray Hill", "Washington and Lehigh", "Union"
+          "Hayes", "Oxford and Murray Hill", "Washington and Lehigh", "Mohawk"
         ],
         "times":[
           "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00",
@@ -157,7 +139,7 @@ const routesData = {
         "name": "UClub",
         "stops": [
           "Mohawk", "Newing", "Couper Administration", "East Gym", "UClub", "Meadows",
-          "Hayes", "Oxford and Murray Hill", "Washington and Lehigh", "Union"
+          "Hayes", "Oxford and Murray Hill", "Washington and Lehigh", "Mohawk"
         ],
         "times":["22:00", "22:30", "23:00", "23:30"]
     },
@@ -171,14 +153,13 @@ const routesData = {
         "times":["14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
     },
     {
-        "name": "CS Weekdays",
+        "name": "Oakdale Commons",
         "stops": [
-          "Engineering Building", "Decker Student Health Services", "Dickinson", "Newing",
-          "Couper Administration", "East Gym", "Welcome Center", "West Gym", "McGuire",
-          "Clearview", "Susquehanna", "Hillside", "Mountainview", "Hinman"
+          "Rafuse", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
+          "Academic A"
         ],
-        "times":["See Spot App for Bus Tracking"]
-    },
+        "times":["14:25", "15:25", "16:25", "17:25", "18:25", "19:25", "20:25", "21:25"]
+    }
   ]
 };
 
@@ -192,9 +173,9 @@ function createStopMapping() {
         "sus": "Susquehanna", "hillside": "Hillside", "mv": "Mountainview",
         "hinman": "Hinman",
         // Campus
-        "union": "Union", "pf": "Physical Facilities", "bha": "Bunn Hill Access",
+        "union": "Union", "rafuse" : "Rafuse", "pf": "Physical Facilities", "bha": "Bunn Hill Access",
         "mohawk": "Mohawk", "newing": "Newing", "ca": "Couper Administration",
-        "eg": "East Gym", "aa": "Academic A",
+        "eg": "East Gym", "aa": "Academic A", 
         
         // Off Campus University
         "ps": "Pharmacy School", "ns": "Nursing School", "gb": "Gannett Building",
@@ -246,40 +227,6 @@ function createStopMapping() {
     };
     
     return stopMapping;
-}
-
-// Normalize stop names for matching
-function normalizeStopName(stopName) {
-    return stopName.toLowerCase()
-        .replace(/\s+/g, ' ')
-        .replace(/[&]/g, 'and')
-        .trim();
-}
-// Get current time in minutes
-function getCurrentTimeMinutes() {
-    const now = new Date();
-    return now.getHours() * 60 + now.getMinutes();
-}
-
-
-// Convert minutes back to time string with next day indicator
-function minutesToTime(minutes, isNextDay = false) {
-    // Handle next day times by subtracting 24 hours if needed
-    let displayMinutes = minutes;
-    if (isNextDay) {
-        displayMinutes = minutes; // Keep as-is for calculation
-    }
-    
-    const hours = Math.floor(displayMinutes / 60) % 24;
-    const mins = displayMinutes % 60;
-    
-    let timeStr = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-    
-    if (isNextDay) {
-        timeStr += " (next day)";
-    }
-    
-    return timeStr;
 }
 
 // Create a mapping of travel time offsets from departure for each route
@@ -469,7 +416,7 @@ function getTravelTimeOffsets() {
           "Hayes": 12,
           "Oxford and Murray Hill": 14,
           "Washington and Lehigh": 17,
-          "Union": 22
+          "Mohawk": 22
       },
       "UClub": {
           "Mohawk": 0,
@@ -481,7 +428,7 @@ function getTravelTimeOffsets() {
           "Hayes": 7,
           "Oxford and Murray Hill": 8,
           "Washington and Lehigh": 9,
-          "Union": 12
+          "Mohawk": 12
       },
       "Vestal Shopping": {
           "Union": 0,
@@ -501,7 +448,7 @@ function getTravelTimeOffsets() {
           "Academic A": 45
       },
       "Oakdale Commons": {
-          "Union": 0,
+          "Rafuse": 0,
           "Physical Facilities": 2,
           "Bunn Hill Access": 3,
           "Oakdale Commons": 9,
@@ -515,7 +462,191 @@ function getTravelTimeOffsets() {
   };
 }
 
-// Update the findDirectRoutes function to use the calculated arrival time
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+  // Add event listeners for auto-search when both fields are selected
+  const startSelect = document.getElementById('starting');
+  const endSelect = document.getElementById('ending');
+  
+  startSelect.addEventListener('change', function() {
+    if (startSelect.value && endSelect.value) {
+        setTimeout(findRoutes, 100); // Small delay for better UX
+    }
+  });
+  
+  endSelect.addEventListener('change', function() {
+    if (startSelect.value && endSelect.value) {
+      setTimeout(findRoutes, 100);
+    }
+  });
+});
+
+//Normalize stop names for matching
+function normalizeStopName(stopName) {
+    return stopName.toLowerCase()
+        .replace(/\s+/g, ' ')
+        .replace(/[&]/g, 'and')
+        .trim();
+}
+
+// Get current time in minutes
+function getCurrentTimeMinutes() {
+    const now = new Date();
+    return now.getHours() * 60 + now.getMinutes();
+}
+
+// Convert minutes back to time string with next day indicator
+function minutesToTime(minutes, isNextDay = false) {
+    // Handle next day times by subtracting 24 hours if needed
+    let displayMinutes = minutes;
+    if (isNextDay) {
+        displayMinutes = minutes; // Keep as-is for calculation
+    }
+    
+    const hours = Math.floor(displayMinutes / 60) % 24;
+    const mins = displayMinutes % 60;
+    
+    let timeStr = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    
+    if (isNextDay) {
+        timeStr += " (next day)";
+    }
+    
+    return timeStr;
+}
+
+// Parse time string to minutes since midnight for comparison
+function timeToMinutes(timeStr) {
+  if (!timeStr || timeStr.includes('See Spot App')) return null;
+    
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  return hours * 60 + minutes;
+}
+
+// Calculate travel time using time offsets
+function calculateTravelTime(route, startStop, endStop) {
+  const timeOffsets = getTravelTimeOffsets();
+  const routeOffsets = timeOffsets[route.name];
+    
+  if (!routeOffsets) {
+    // Fallback to estimated time if no offset data exists
+    const startIndex = route.stops.findIndex(stop => 
+      normalizeStopName(stop) === normalizeStopName(startStop)
+    );
+    const endIndex = route.stops.findIndex(stop => 
+      normalizeStopName(stop) === normalizeStopName(endStop)
+    );
+        
+    if (startIndex === -1 || endIndex === -1) return null;
+        
+    const stopDifference = Math.abs(endIndex - startIndex);
+    return stopDifference * 2;
+  }
+    
+  const startOffset = routeOffsets[startStop];
+  const endOffset = routeOffsets[endStop];
+    
+  if (startOffset === undefined || endOffset === undefined) return null;
+    
+  return Math.abs(endOffset - startOffset);
+}
+
+// Function to truncate long stop names
+function truncateStopName(stopName) {
+  if (stopName.length > 20) {
+    return stopName.substring(0, 17) + '...';
+  }
+  return stopName;
+}
+
+//Helper function to see if a route is circular
+function isCircularRoute(routeName) {
+    // Add all circular/bidirectional route names here
+    return ["ITC/UClub", "UClub"].includes(routeName);
+}
+
+// Get the next available departure time for a route
+function getNextDeparture(route, currentTime) {
+  const validTimes = route.times
+      .map(timeToMinutes)
+      .filter(time => time !== null)
+      .sort((a, b) => a - b);
+    
+  if (validTimes.length === 0) return null;
+  
+  // Find next departure after current time
+  let nextTime = validTimes.find(time => time > currentTime);
+  let isNextDay = false;
+    
+  // If no time found today, take first time tomorrow
+  if (!nextTime) {
+      nextTime = validTimes[0];
+      isNextDay = true;
+  }
+    
+  return {time: nextTime, isNextDay};
+}
+
+// Main route finding function
+function findRoutes() {
+  const startSelect = document.getElementById('starting');
+  const endSelect = document.getElementById('ending');
+  const resultsDiv = document.getElementById('results');
+  
+  const startValue = startSelect.value;
+  const endValue = endSelect.value;
+  
+  if (!startValue || !endValue) {
+    resultsDiv.innerHTML = '<p>Please select both starting and ending locations.</p>';
+    return;
+  }
+    
+  if (startValue === endValue) {
+    resultsDiv.innerHTML = '<p>Starting and ending locations cannot be the same.</p>';
+    return;
+  }
+  
+  const stopMapping = createStopMapping();
+  const startStop = stopMapping[startValue];
+  const endStop = stopMapping[endValue];
+
+  // Campus Shuttle check
+  const csRoutes = [
+    "eng","dshs","wc","wg","mcg","clearview",
+    "sus","hillside","mv","hinman",//"mohawk",
+    "newing","ca","eg"
+  ];
+  if (csRoutes.includes(startValue) && csRoutes.includes(endValue)) {
+    resultsDiv.innerHTML = `
+      <div class="route-option cs-shuttle">
+        <h3>Campus Shuttle Route</h3>
+        <p>This trip is served by the Campus Shuttle.</p>
+        <p>Please check the Spot app for the nearest shuttle and real-time tracking.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  if (!startStop || !endStop) {
+    resultsDiv.innerHTML = '<p>Error: Invalid stop selection.</p>';
+    return;
+  }
+    
+  resultsDiv.innerHTML = '<p>Searching for routes...</p>';
+  
+  // Find direct routes
+  const directRoutes = findDirectRoutes(startStop, endStop);
+  
+  // Find transfer routes
+  const transferRoutes = findTransferRoutes(startStop, endStop);
+  
+  // Combine and sort all routes
+  const allRoutes = [...directRoutes, ...transferRoutes.slice(0, 5)]
+    .sort((a, b) => a.totalJourneyTime - b.totalJourneyTime);
+  
+  displayResults(allRoutes, startStop, endStop);
+}
+
 function findDirectRoutes(startStop, endStop) {
   const directRoutes = [];
 
@@ -527,8 +658,12 @@ function findDirectRoutes(startStop, endStop) {
       normalizeStopName(stop) === normalizeStopName(endStop)
     );
     
-    // Check if both stops exist in the route AND direction is correct
-    if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
+    // For circular routes, allow both directions
+    const validDirection = isCircularRoute(route.name)
+      ? (startIndex !== -1 && endIndex !== -1 && startIndex !== endIndex)
+      : (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex);
+
+    if (validDirection) {
       const travelTime = calculateTravelTime(route, startStop, endStop);
       const currentTime = getCurrentTimeMinutes();
       const nextDepartureInfo = getNextDeparture(route, currentTime);
@@ -672,84 +807,6 @@ function findTransferRoutes(startStop, endStop) {
   return transferRoutes.sort((a, b) => a.totalJourneyTime - b.totalJourneyTime);
 }
 
-// Get the next available departure time for a route
-function getNextDeparture(route, currentTime) {
-  const validTimes = route.times
-      .map(timeToMinutes)
-      .filter(time => time !== null)
-      .sort((a, b) => a - b);
-    
-  if (validTimes.length === 0) return null;
-  
-  // Find next departure after current time
-  let nextTime = validTimes.find(time => time > currentTime);
-  let isNextDay = false;
-    
-  // If no time found today, take first time tomorrow
-  if (!nextTime) {
-      nextTime = validTimes[0];
-      isNextDay = true;
-  }
-    
-  return {time: nextTime, isNextDay};
-}
-
-// Parse time string to minutes since midnight for comparison
-function timeToMinutes(timeStr) {
-  if (!timeStr || timeStr.includes('See Spot App')) return null;
-    
-  const [hours, minutes] = timeStr.split(':').map(Number);
-  return hours * 60 + minutes;
-}
-
-// Calculate travel time using time offsets
-function calculateTravelTime(route, startStop, endStop) {
-  const timeOffsets = getTravelTimeOffsets();
-  const routeOffsets = timeOffsets[route.name];
-    
-  if (!routeOffsets) {
-    // Fallback to estimated time if no offset data exists
-    const startIndex = route.stops.findIndex(stop => 
-      normalizeStopName(stop) === normalizeStopName(startStop)
-    );
-    const endIndex = route.stops.findIndex(stop => 
-      normalizeStopName(stop) === normalizeStopName(endStop)
-    );
-        
-    if (startIndex === -1 || endIndex === -1) return null;
-        
-    const stopDifference = Math.abs(endIndex - startIndex);
-    return stopDifference * 2;
-  }
-    
-  const startOffset = routeOffsets[startStop];
-  const endOffset = routeOffsets[endStop];
-    
-  if (startOffset === undefined || endOffset === undefined) return null;
-    
-  return Math.abs(endOffset - startOffset);
-}
-
-// Helper function to determine if a route is valid for given start and end stops
-function isValidRouteDirection(route, startStop, endStop) {
-  const startIndex = route.stops.findIndex(stop => 
-    normalizeStopName(stop) === normalizeStopName(startStop)
-  );
-  const endIndex = route.stops.findIndex(stop => 
-    normalizeStopName(stop) === normalizeStopName(endStop)
-  );
-    
-  // A route is valid only if the start comes before the end in the stop sequence
-  return startIndex !== -1 && endIndex !== -1 && startIndex < endIndex;
-}
-// Function to truncate long stop names
-function truncateStopName(stopName) {
-  if (stopName.length > 20) {
-    return stopName.substring(0, 17) + '...';
-  }
-  return stopName;
-}
-
 // Display results with truncated text for better readability
 function displayResults(routes, startStop, endStop) {
   const resultsDiv = document.getElementById('results');  
@@ -758,12 +815,14 @@ function displayResults(routes, startStop, endStop) {
       <div class="route-option no-results">
         <h3>No Routes Found</h3>
           <p>No direct or transfer routes found between ${truncateStopName(startStop)} and ${truncateStopName(endStop)}.</p>
-          <p>This might be due to:</p>
-            <ul>
-              <li>Routes not running at current time</li>
-              <li>No connecting routes available</li>
-              <li>Stops not properly matched in database</li>
-            </ul>
+          <p>Please check the Spot app for real-time updates and alternative options.</p>
+        <h3>Note: If you are on campus, consider walking to:</h3>
+          <ul>
+            <li>Rafuse for OC</li>
+            <li>Mohawk for ITC/UClub or UClub</li>
+            <li>Union for WS, DCL, MS, DS, VS routes</li>
+          </ul>
+        <p>More information may be found at occtransport.org</p>
       </div>
     `;
     return;
@@ -818,86 +877,6 @@ function displayResults(routes, startStop, endStop) {
   });
   resultsDiv.innerHTML = html;
 }
-
-// Main route finding function
-function findRoutes() {
-  const startSelect = document.getElementById('starting');
-  const endSelect = document.getElementById('ending');
-  const resultsDiv = document.getElementById('results');
-  
-  const startValue = startSelect.value;
-  const endValue = endSelect.value;
-  
-  if (!startValue || !endValue) {
-    resultsDiv.innerHTML = '<p>Please select both starting and ending locations.</p>';
-    return;
-  }
-    
-  if (startValue === endValue) {
-    resultsDiv.innerHTML = '<p>Starting and ending locations cannot be the same.</p>';
-    return;
-  }
-  
-  const stopMapping = createStopMapping();
-  const startStop = stopMapping[startValue];
-  const endStop = stopMapping[endValue];
-
-  // Campus Shuttle check
-  const csRoutes = [
-    "eng","dshs","wc","wg","mcg","clearview",
-    "sus","hillside","mv","hinman","mohawk",
-    "newing","ca","eg"
-  ];
-  if (csRoutes.includes(startValue) && csRoutes.includes(endValue)) {
-    resultsDiv.innerHTML = `
-      <div class="route-option cs-shuttle">
-        <h3>Campus Shuttle Route</h3>
-        <p>This trip is served by the Campus Shuttle.</p>
-        <p>Please check the Spot app for the nearest shuttle and real-time tracking.</p>
-      </div>
-    `;
-    return;
-  }
-  
-  if (!startStop || !endStop) {
-    resultsDiv.innerHTML = '<p>Error: Invalid stop selection.</p>';
-    return;
-  }
-    
-  resultsDiv.innerHTML = '<p>Searching for routes...</p>';
-  
-  // Find direct routes
-  const directRoutes = findDirectRoutes(startStop, endStop);
-  
-  // Find transfer routes
-  const transferRoutes = findTransferRoutes(startStop, endStop);
-  
-  // Combine and sort all routes
-  const allRoutes = [...directRoutes, ...transferRoutes.slice(0, 5)]
-    .sort((a, b) => a.totalJourneyTime - b.totalJourneyTime);
-  
-  displayResults(allRoutes, startStop, endStop);
-}
-
-
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-  // Add event listeners for auto-search when both fields are selected
-  const startSelect = document.getElementById('starting');
-  const endSelect = document.getElementById('ending');
-  
-  startSelect.addEventListener('change', function() {
-    if (startSelect.value && endSelect.value) {
-        setTimeout(findRoutes, 100); // Small delay for better UX
-    }
-  });
-  
-  endSelect.addEventListener('change', function() {
-    if (startSelect.value && endSelect.value) {
-      setTimeout(findRoutes, 100);
-    }
-  });
-});
 
 // Make findRoutes globally available for the button onclick
 window.findRoutes = findRoutes;

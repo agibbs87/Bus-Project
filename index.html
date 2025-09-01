@@ -5,32 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCCT Route Planner</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .route-option {
-            border: 1px solid #ddd;
-            margin: 10px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .fastest { border-color: green; }
-        .transfer { border-color: orange; }
-    </style>
 </head>
 <body>
     <h1>OCCT Route Planner</h1>
     <label for="starting">Choose a starting location:</label>
-    <form>
     <select id="starting">
-    <optgroup label="Campus">
-            <!--Non CS + Overlap-->
-            <option value="union" selected="selected">Union</option>
-            <option value="pf">Physical Facilities</option>
-            <option value="bha">Bunn Hill Access</option>
-            <option value="mohawk">Mohawk</option>
-            <option value="newing">Newing</option>
-            <option value="ca">Couper Administration</option>
-            <option value="eg">East Gym</option>
-            <option value="aa">Academic A</option>
+    <option value="" selected>Select starting location...</option>
+    <optgroup label="CS Shuttle Only">
             <!--CS Only-->
             <option value="eng">Engineering Building</option>
             <option value="dshs">Decker Student Health Services</option>
@@ -43,7 +24,18 @@
             <option value="mv">Mountainview</option>
             <option value="hinman">Hinman</option>
     </optgroup>
-    <optgroup label="Off Campus University Locations">
+    <optgroup label="Campus">
+            <!--Non CS + Overlap-->
+            <option value="union">Union</option>
+            <option value="pf">Physical Facilities</option>
+            <option value="bha">Bunn Hill Access</option>
+            <option value="mohawk">Mohawk</option>
+            <option value="newing">Newing</option>
+            <option value="ca">Couper Administration</option>
+            <option value="eg">East Gym</option>
+            <option value="aa">Academic A</option>
+    </optgroup>
+    <optgroup label="Off Campus University Buildings">
         <option value="ps">Pharmacy School</option>
         <option value="ns">Nursing School</option>
         <option value="gb">Gannett Building</option>
@@ -67,7 +59,7 @@
     <optgroup label="Riverside Dr + Leroy St">
         <!--DCL Out-->
         <option value="ethel">Ethel</option>
-        <option value="ackley">Ackley</option>
+        <option value="elfred">Elfred</option>
         <option value="columbus">Columbus</option>
         <option value="margaret">Margaret</option>
         <option value="rb">Riverside and Beethoven</option>
@@ -147,22 +139,11 @@
         <option value="wl">Washington and Lehigh</option>
     </optgroup>
     </select>
-    </form>
-
 
     <label for="ending">Choose an ending destination:</label>
-    <form>
     <select id="ending">
-    <optgroup label="Campus">
-            <!--Non CS + Overlap-->
-            <option value="union" selected="selected">Union</option>
-            <option value="pf">Physical Facilities</option>
-            <option value="bha">Bunn Hill Access</option>
-            <option value="mohawk">Mohawk</option>
-            <option value="newing">Newing</option>
-            <option value="ca">Couper Administration</option>
-            <option value="eg">East Gym</option>
-            <option value="aa">Academic A</option>
+    <option value="" selected>Select ending destination...</option>
+    <optgroup label="CS Shuttle Only">
             <!--CS Only-->
             <option value="eng">Engineering Building</option>
             <option value="dshs">Decker Student Health Services</option>
@@ -174,6 +155,17 @@
             <option value="hillside">Hillside</option>
             <option value="mv">Mountainview</option>
             <option value="hinman">Hinman</option>
+    </optgroup>
+    <optgroup label="Campus">
+            <!--Non CS + Overlap-->
+            <option value="union">Union</option>
+            <option value="pf">Physical Facilities</option>
+            <option value="bha">Bunn Hill Access</option>
+            <option value="mohawk">Mohawk</option>
+            <option value="newing">Newing</option>
+            <option value="ca">Couper Administration</option>
+            <option value="eg">East Gym</option>
+            <option value="aa">Academic A</option>
     </optgroup>
     <optgroup label="Off Campus University Buildings">
         <option value="ps">Pharmacy School</option>
@@ -279,21 +271,19 @@
         <option value="wl">Washington and Lehigh</option>
     </optgroup>
     </select>
-    </form>
     <button onclick="findRoutes()">Find Routes</button>
     
     <div id="results"></div>
     <script src="script.js"></script>
     <script type="text/javascript">
-var currentTime = new Date()
-var hours = currentTime.getHours()
-var minutes = currentTime.getMinutes()
+const now = new Date();
+const timeString = now.toLocaleTimeString('en-US', { 
+    hour12: false, 
+    hour: '2-digit', 
+    minute: '2-digit' 
+});
+console.log("User time is " + timeString);
 
-if (minutes < 10){
-  minutes = "0" + minutes;
-}
-
-console.log("User time is " + hours + ":" + minutes);
 </script>
 </body>
 </html>

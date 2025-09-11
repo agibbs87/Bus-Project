@@ -155,7 +155,7 @@ const routesData = {
     {
         "name": "Oakdale Commons",
         "stops": [
-          "Rafuse", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
+          "Union", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
           "Academic A"
         ],
         "times":["14:25", "15:25", "16:25", "17:25", "18:25", "19:25", "20:25", "21:25"]
@@ -317,7 +317,7 @@ const routesData = {
     {
         "name": "Oakdale Commons",
         "stops": [
-          "Rafuse", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
+          "Union", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
           "Academic A"
         ],
         "times":["14:25", "15:25", "16:25", "17:25", "18:25", "19:25", "20:25", "21:25"]
@@ -492,7 +492,7 @@ const routesData = {
     {
         "name": "Oakdale Commons",
         "stops": [
-          "Rafuse", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
+          "Union", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
           "Academic A"
         ],
         "times":["11:00", "12:20", "13:40", "15:00", "16:20", "18:10", "19:30", "20:50"]
@@ -667,7 +667,7 @@ const routesData = {
     {
         "name": "Oakdale Commons",
         "stops": [
-          "Rafuse", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
+          "Union", "Physical Facilities", "Bunn Hill Access", "Oakdale Commons", "Wegmans", "Aldi", "Five Below",
           "Academic A"
         ],
         "times":["11:00", "12:20", "13:40", "15:00", "16:20", "18:10", "19:30", "20:50", "22:10"]
@@ -685,7 +685,7 @@ function createStopMapping() {
         "sus": "Susquehanna", "hillside": "Hillside", "mv": "Mountainview",
         "hinman": "Hinman",
         // Campus
-        "union": "Union", "rafuse" : "Rafuse", "pf": "Physical Facilities", "bha": "Bunn Hill Access",
+        "union": "Union", "pf": "Physical Facilities", "bha": "Bunn Hill Access",
         "mohawk": "Mohawk", "newing": "Newing", "ca": "Couper Administration",
         "eg": "East Gym", "aa": "Academic A", 
         
@@ -964,7 +964,7 @@ function getTravelTimeOffsets() {
           "Academic A": 45
       },
       "Oakdale Commons": {
-          "Rafuse": 0,
+          "Union": 0,
           "Physical Facilities": 2,
           "Bunn Hill Access": 3,
           "Oakdale Commons": 9,
@@ -1473,9 +1473,8 @@ function displayResults(routes, startStop, endStop) {
           <p>Please check the Spot app for real-time updates and alternative options.</p>
         <h3>Note: If you are on campus, consider walking to:</h3>
           <ul>
-            <p><strong>Union</strong> for WS, DCL, MS, DS, VS routes</p>
+            <p><strong>Union</strong> for WS, DCL, MS, DS, VS, OC routes</p>
             <p><strong>Mohawk</strong> for ITC/UClub or UClub</p>
-            <p><strong>Rafuse</strong> for OC</p>
           </ul>
         <p>More information may be found at occtransport.org</p>
       </div>

@@ -11,6 +11,9 @@
     <label for="starting">Choose a starting location:</label>
     <select id="starting">
     <option value="" selected>Select starting location...</option>
+    <optgroup label="Late Nite">
+        <option value="lnd">Late Nite Downtown</option>
+    </optgroup>
     <optgroup label="CS Shuttle Only">
             <!--CS Only-->
             <option value="eng">Engineering Building</option>
@@ -144,6 +147,9 @@
     <label for="ending">Choose an ending destination:</label>
     <select id="ending">
     <option value="" selected>Select ending destination...</option>
+    <optgroup label="Late Nite">
+        <option value="lnd">Late Nite Downtown</option>
+    </optgroup>
     <optgroup label="CS Shuttle Only">
             <!--CS Only-->
             <option value="eng">Engineering Building</option>
@@ -277,6 +283,18 @@
     <button onclick="findRoutes()">Find Routes</button>
     
     <div id="results"></div>
+    <script>console.log(new Date().toLocaleString('en-us', {  weekday: 'long' }));</script>
+    <script type="text/javascript">
+        var currentTime = new Date()
+        var hours = currentTime.getHours()
+        var minutes = currentTime.getMinutes()
+
+        if (minutes < 10){
+        minutes = "0" + minutes;
+        }
+
+        console.log("User time is " + hours + ":" + minutes);
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

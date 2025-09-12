@@ -1,3 +1,11 @@
+/**
+ * @fileoverview This file contains the main application logic for the bus route finding system
+ * @author Anthony Gibbs <antgibbs878@gmail.com>
+ * @version 1.0.0
+ * @date 2025-09-12
+ * @lastModified 2025-09-12 Anthony Gibbs
+ * @todoList General areas/walking features/popular stops section, custom time selection, custom route selection
+ */
 const routesData = {
   "MonTuesWedThurs": [
     {

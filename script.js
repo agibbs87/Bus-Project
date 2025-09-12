@@ -4,7 +4,7 @@
  * @version 1.0.0
  * @date 2025-09-12
  * @lastModified 2025-09-12 Anthony Gibbs
- * @todoList General areas/walking features/popular stops section, custom time selection, custom route selection
+ * @todoList General areas/walking features, custom time selection, custom route selection, connection to Spot App for CS
  */
 const routesData = {
   "MonTuesWedThurs": [

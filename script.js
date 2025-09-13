@@ -1207,6 +1207,39 @@ function getNextDeparture(route, currentTime) {
   return {time: nextTime, isNextDay};
 }
 
+function lateNiteCheck(){
+  const body = document.querySelector('body');
+  const now = new Date();
+  const currentHour = now.getHours();
+  const dayOfWeek = now.toLocaleString('en-us', { weekday: 'long' });
+
+  // Friday 9pm to Saturday 4am, OR Saturday 9pm to Sunday 4am
+  const isLateNite = ((dayOfWeek === "Friday" || dayOfWeek === "Saturday") && 
+      (currentHour >= 21 || currentHour < 4)) ||
+      (dayOfWeek === "Sunday" && currentHour < 4);
+  if (isLateNite) {
+      // Late Nite
+      body.style.backgroundColor = '#223f49ff';
+      const h2 = document.createElement('h2');
+      h2.textContent = 'Late Nite Hours';
+      h2.style.color = 'white';
+      h2.style.textAlign = 'center';
+      const h1 = document.querySelector('h1');
+      h1.insertAdjacentElement('afterend', h2);
+      h1.style.color = 'white';
+      const startingLabel = document.querySelector('label[for="starting"]');
+      const endingLabel = document.querySelector('label[for="ending"]');
+      startingLabel.style.color = 'white';
+      endingLabel.style.color = 'white';
+      document.getElementById('starting').value = 'lnd';
+      document.getElementById('ending').value = 'union';
+      findRoutes();
+  }   
+  else {
+      // Regular hours
+      body.style.backgroundColor = '#2596BE';
+  }
+}
 // Main route finding function
 function findRoutes() {
   // Get selected values from dropdown menus
@@ -1249,11 +1282,6 @@ function findRoutes() {
         <p>Please check the Spot app for the nearest shuttle and real-time tracking.</p>
       </div>
     `;
-    return;
-  }
-  // If either stop is invalid, show error and return
-  if (!startStop || !endStop) {
-    resultsDiv.innerHTML = '<p>Error: Invalid stop selection.</p>';
     return;
   }
     

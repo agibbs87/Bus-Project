@@ -983,7 +983,7 @@ function getTravelTimeOffsets() {
           "Physical Facilities": 30,
           "Academic A": 35
       },
-      "Downtown Express (before 1 AM)": {
+      "Downtown Express (Before 1 AM)": {
           "Union": 0,
           "Hayes": 3,
           "Meadows": 4,
@@ -991,7 +991,7 @@ function getTravelTimeOffsets() {
           "Late Nite Downtown": 15,
           "Academic A": 30,
       },
-      "Downtown Express (after 1 AM)": {
+      "Downtown Express (After 1 AM)": {
           "Union": 0,
           "Late Nite Downtown": 15,
           "UClub": 20,
@@ -1259,7 +1259,6 @@ function findRoutes() {
     
   resultsDiv.innerHTML = '<p>Searching for routes...</p>';
   
-  let routes = [];
   // Determine if today is a weekend or weekday to select appropriate routes
   if (new Date().toLocaleString('en-us', {  weekday: 'long' }) === 'Monday' || 
   new Date().toLocaleString('en-us', {  weekday: 'long' }) === 'Tuesday' ||

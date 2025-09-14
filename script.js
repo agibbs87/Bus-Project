@@ -2,8 +2,8 @@
  * @fileoverview This file contains the main application logic for the bus route finding system
  * @author Anthony Gibbs <antgibbs878@gmail.com>
  * @version 1.0.0
- * @date 2025-09-12
- * @lastModified 2025-09-12 Anthony Gibbs
+ * @date 2025-09-13
+ * @lastModified 2025-09-13 Anthony Gibbs
  * @todoList General areas/walking features, custom time selection, custom route selection, connection to Spot App for CS
  */
 const routesData = {
@@ -1207,6 +1207,7 @@ function getNextDeparture(route, currentTime) {
   return {time: nextTime, isNextDay};
 }
 
+// Checks if its Late Nite, changes background and text if so
 function lateNiteCheck(){
   const body = document.querySelector('body');
   const now = new Date();
@@ -1215,13 +1216,13 @@ function lateNiteCheck(){
 
   // Friday 9pm to Saturday 4am, OR Saturday 9pm to Sunday 4am
   const isLateNite = ((dayOfWeek === "Friday" || dayOfWeek === "Saturday") && 
-      (currentHour >= 21 || currentHour < 4)) ||
+      (currentHour >= 22 || currentHour < 4)) ||
       (dayOfWeek === "Sunday" && currentHour < 4);
+
   if (isLateNite) {
       // Late Nite
       body.style.backgroundColor = '#223f49ff';
       const h2 = document.createElement('h2');
-      h2.textContent = 'Late Nite Hours';
       h2.style.color = 'white';
       h2.style.textAlign = 'center';
       const h1 = document.querySelector('h1');
@@ -1231,8 +1232,20 @@ function lateNiteCheck(){
       const endingLabel = document.querySelector('label[for="ending"]');
       startingLabel.style.color = 'white';
       endingLabel.style.color = 'white';
-      document.getElementById('starting').value = 'lnd';
-      document.getElementById('ending').value = 'union';
+
+      if ((dayOfWeek === "Friday" && currentHour >= 22) || 
+      (dayOfWeek === "Saturday" && ((currentHour >= 22 || currentHour < 1)))
+      || (dayOfWeek === "Sunday" && currentHour < 1)){
+        h2.textContent = 'Late Nite Hours (Pregame Edition)';
+        document.getElementById('starting').value = 'union';
+        document.getElementById('ending').value = 'lnd';
+      }
+      else{
+        h2.textContent = 'Late Nite Hours (Postgame Edition)';
+        document.getElementById('starting').value = 'lnd';
+        document.getElementById('ending').value = 'union';
+      } 
+
       findRoutes();
   }   
   else {

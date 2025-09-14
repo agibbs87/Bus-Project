@@ -1214,7 +1214,7 @@ function lateNiteCheck(){
   const currentHour = now.getHours();
   const dayOfWeek = now.toLocaleString('en-us', { weekday: 'long' });
 
-  // Friday 9pm to Saturday 4am, OR Saturday 9pm to Sunday 4am
+  // Friday 10pm to Saturday 4am, OR Saturday 10pm to Sunday 4am
   const isLateNite = ((dayOfWeek === "Friday" || dayOfWeek === "Saturday") && 
       (currentHour >= 22 || currentHour < 4)) ||
       (dayOfWeek === "Sunday" && currentHour < 4);
@@ -1537,6 +1537,9 @@ function displayResults(routes, startStop, endStop) {
     minute: '2-digit',
     hour12: true 
   });
+  if (endStop === "Late Nite Downtown"){
+    html += `<h3> Consider switching ending destination to UDC for more routes</h3>`;
+  }
   html += `<h3>Using information from ${dayOfWeek} at ${currentTime}</h3>`;
   html += `<h5>Note: Times may vary based on current conditions. Always check the Spot app for real-time updates.</h5>`;
   

@@ -32,7 +32,7 @@ const routesData = {
           "Elfred", "Ethel", "Academic A", "Union"
         ],
         "times":[
-          "00:10","07:40", "07:55", "08:15", "08:30", "09:20", "09:35", "09:55", "10:05", "11:00", "11:15", "11:35", "11:50", "12:25",
+          "00:10","07:35", "07:55", "08:15", "08:30", "09:20", "09:35", "09:55", "10:05", "11:00", "11:15", "11:35", "11:50", "12:25",
           "12:40", "13:30", "14:55", "15:10", "16:10", "16:35", "17:35", "18:15",
           "19:00", "19:10", "19:55", "20:10", "20:55", "22:10", "23:10"
         ]
@@ -58,7 +58,7 @@ const routesData = {
           "Floral and St. Charles", "Cook", "Academic A", "Union"
         ],
         "times":[
-          "00:05","07:20", "07:35", "08:25", "08:40", "09:00", "09:15", "10:05", "10:20", "10:40", "11:00",
+          "00:05","07:20", "07:33", "08:25", "08:40", "09:00", "09:15", "10:05", "10:20", "10:40", "11:00",
           "11:45", "12:00", "12:40", "13:10", "13:30", "14:15", "15:05", "15:40", "15:55", "16:55", "17:20",
           "17:45", "18:05", "18:35", "19:00", "19:55", "20:35", "21:05", "21:35", "22:40",
           "23:20"
@@ -127,7 +127,7 @@ const routesData = {
           "Pharmacy School", "Baldwin", "Main and St. Charles", "First", "Academic A", "Union"
         ],
         "times":[
-          "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
+          "07:25", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
           "17:30", "18:30", "19:30", "20:30", "22:35"
         ]
     },
@@ -194,7 +194,7 @@ const routesData = {
           "Elfred", "Ethel", "Academic A", "Union"
         ],
         "times":[
-          "07:40", "07:55", "08:15", "08:30", "09:20", "09:35", "09:55", "10:05", "11:00", "11:15", "11:35", "11:50", "12:25",
+          "07:35", "07:55", "08:15", "08:30", "09:20", "09:35", "09:55", "10:05", "11:00", "11:15", "11:35", "11:50", "12:25",
           "12:40", "13:30", "14:55", "15:10", "16:10", "16:35", "17:35", "18:15",
           "19:00", "19:10", "19:55", "20:10", "20:55", "21:40", "22:10", "23:25"
         ]
@@ -220,7 +220,7 @@ const routesData = {
           "Floral and St. Charles", "Cook", "Academic A", "Union"
         ],
         "times":[
-          "07:20", "07:35", "08:25", "08:40", "09:00", "09:15", "10:05", "10:20", "10:40", "11:00",
+          "07:20", "07:33", "08:25", "08:40", "09:00", "09:15", "10:05", "10:20", "10:40", "11:00",
           "11:45", "12:00", "12:40", "13:10", "13:30", "14:15", "15:05", "15:40", "15:55", "16:55", "17:20",
           "17:45", "18:05", "18:35", "19:00", "19:55", "20:35", "21:05", "21:35", "22:40",
           "23:35"
@@ -289,7 +289,7 @@ const routesData = {
           "Pharmacy School", "Baldwin", "Main and St. Charles", "First", "Academic A", "Union"
         ],
         "times":[
-          "07:30", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
+          "07:25", "08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30",
           "17:30", "18:30", "19:30", "20:30", "22:35"
         ]
     },
@@ -698,8 +698,12 @@ function createStopMapping() {
         "eg": "East Gym", "aa": "Academic A", 
         
         // Off Campus University
-        "ps": "Pharmacy School", "ns": "Nursing School", "gb": "Gannett Building",
-        "itc": "ITC", "udc": "UDC",
+        "udc": "UDC", "ps": "Pharmacy School", "ns": "Nursing School", "gb": "Gannett Building",
+        "itc": "ITC",
+
+        // UClub
+        "uclub": "UClub", "meadows": "Meadows", "hayes": "Hayes",
+        "omh": "Oxford and Murray Hill", "wl": "Washington and Lehigh",
         
         // Floral Avenue
         "cook": "Cook", "fsc": "Floral and St. Charles", "ny": "New York",
@@ -722,7 +726,7 @@ function createStopMapping() {
         
         // Downtown Binghamton
         "os": "Oak and Seminary", "ol": "Oak and Leroy", "fl": "Front and Leroy",
-        "ch": "Court and Hawley", "sh": "State and Hawley",
+        "ch": "Court and Hawley",
         
         // Downtown Southside
         "larchmont": "Larchmont", "hawthorne": "Hawthorne", "brookfield": "Brookfield",
@@ -740,10 +744,6 @@ function createStopMapping() {
         // Oakdale Commons
         "oc": "Oakdale Commons", "wegmans": "Wegmans", "aldi": "Aldi",
         "fivebelow": "Five Below",
-        
-        // UClub
-        "uclub": "UClub", "meadows": "Meadows", "hayes": "Hayes",
-        "omh": "Oxford and Murray Hill", "wl": "Washington and Lehigh",
 
         // Late Nite Stuff
         "lnd": "Late Nite Downtown"
